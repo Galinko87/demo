@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-livenessprobe
+  namespace: demo
+spec:
+  containers:
+  - name: app
+    image: gcr.io/firstcloudproject-419120/demo:v1.0.0
+    ports:
+    - name: http
+      containerPort: 8080
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "512Mi"
+      requests:
+        cpu: "0.1"
+        memory: "128Mi"
+    
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8000
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 10
+      failureThreshold: 3
